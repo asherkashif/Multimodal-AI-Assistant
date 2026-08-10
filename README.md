@@ -1,38 +1,62 @@
 # Multimodal AI Assistant
 
-A simple multimodal AI assistant project built with FastAPI and Streamlit. The application provides a basic web interface for uploading files such as PDFs and images, sending them to a backend API, and storing them locally for further processing.
+A complete multimodal AI assistant built with FastAPI and Streamlit. This project supports authenticated users, PDF and image uploads, retrieval-augmented chat, AI vision processing, and downloadable PDF report generation.
 
 ## Overview
 
-This project combines:
-- a FastAPI backend for file handling and health checks
-- a Streamlit frontend for a simple user interface
-- local file storage in the uploads folder
+This project includes:
+- FastAPI backend with authentication, upload, chat, and report endpoints
+- Streamlit frontend with login/signup, chat, document upload, image upload, and report generation
+- Local SQLite storage for users, chats, and messages
+- PDF text extraction, chunking, and FAISS vector store creation for document QA
+- Image processing with AI vision prompts
+- Reports generated as downloadable PDF files
 
 ## Features
 
-- Upload PDF, JPG, JPEG, and PNG files from the web interface
-- Receive upload success feedback from the backend
-- Basic API endpoints for health monitoring and file upload
-- Simple navigation UI built with Streamlit
+- User signup and login with JWT authentication
+- Upload PDF files for text extraction and knowledge retrieval
+- Upload PNG/JPG/JPEG images for vision-based question answering
+- Chat assistant that answers questions using uploaded PDF/document or image context
+- Generate PDF conversation reports from chat sessions
+- Health check endpoint and root welcome endpoint
 
 ## Project Structure
 
-- app/main.py - FastAPI application entry point
-- app/api/upload.py - Upload endpoint and file-saving logic
-- frontend/app.py - Streamlit frontend interface
-- uploads/ - Directory where uploaded files are stored
-- requirements.txt - Python dependencies
+- `app/main.py` - FastAPI application entry point
+- `app/api/auth.py` - Signup and login endpoints
+- `app/api/upload.py` - PDF/image upload and vector store creation
+- `app/api/ask.py` - Chat endpoint for PDF and image QA
+- `app/api/report.py` - PDF report generation endpoint
+- `app/services/` - Core AI, PDF, image, vector store, and auth services
+- `app/database/` - Database models, connection, and session utilities
+- `frontend/app.py` - Streamlit frontend interface
+- `uploads/` - Saved uploaded files
+- `reports/` - Generated PDF reports
+- `data/faiss_index/` - FAISS vector database index files
+- `requirements.txt` - Python dependencies
 
 ## Tech Stack
 
 - Python
 - FastAPI
 - Streamlit
+- SQLAlchemy + SQLite
+- FAISS
+- Google Gemini via `langchain_google_genai`
+- ReportLab
 - Requests
 - python-multipart
 
-## Installation
+## Requirements
+
+- Python 3.11+ recommended
+- `.env` file with at least:
+  - `GEMINI_API_KEY`
+  - `SECRET_KEY`
+  - `API_URL` (optional, defaults to `http://127.0.0.1:8000`)
+
+## Setup
 
 1. Clone the repository
 2. Create and activate a virtual environment (optional but recommended)
@@ -40,6 +64,14 @@ This project combines:
 
 ```bash
 pip install -r requirements.txt
+```
+
+4. Create a `.env` file in the project root with the required secrets:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key
+SECRET_KEY=your_jwt_secret
+API_URL=http://127.0.0.1:8000
 ```
 
 ## Running the Application
@@ -66,10 +98,24 @@ The Streamlit app will open in your browser at:
 ## Usage
 
 1. Open the Streamlit app in your browser
-2. Upload a supported file
-3. Click the upload button
-4. The file will be sent to the FastAPI backend and saved in the uploads folder
+2. Signup or login with your email and password
+3. Upload a PDF or image
+4. Use the chat interface to ask questions about the uploaded content
+5. Generate a PDF report from the conversation
+6. Download the generated report from the frontend
+
+## API Endpoints
+
+- `POST /signup` - register a new user
+- `POST /login` - obtain a JWT access token
+- `POST /upload` - upload PDF or image file
+- `POST /ask` - ask questions about the uploaded document/image
+- `POST /generate-report` - create a PDF chat report
+- `GET /health` - health check endpoint
 
 ## Notes
 
-This project currently focuses on file upload and basic interface flow. It can be extended later with AI-based document analysis, image understanding, report generation, and chat-style interactions.
+- Uploaded files are saved in `uploads/`
+- Generated conversation reports are saved in `reports/`
+- The project currently uses local SQLite database storage (`chat.db`)
+- The assistant uses retrieval-augmented generation for PDF content and AI vision processing for images

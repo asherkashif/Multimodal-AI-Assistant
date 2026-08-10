@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 from app.database.database import get_db
 from app.database.models import User
 
-SECRET_KEY = "your-super-secret-key-change-this"
+from app.config import SECRET_KEY
+
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 

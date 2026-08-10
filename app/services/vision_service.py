@@ -1,5 +1,6 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
+from app.config import GEMINI_API_KEY
 from PIL import Image
 import base64
 import io
@@ -7,7 +8,8 @@ import io
 
 model = ChatGoogleGenerativeAI(
     model="gemini-2.5-flash",
-    temperature=0
+    temperature=0,
+    google_api_key=GEMINI_API_KEY
 )
 
 

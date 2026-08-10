@@ -1,5 +1,14 @@
 import streamlit as st
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+API_URL = os.getenv(
+    "API_URL",
+    "http://127.0.0.1:8000"
+)
 
 # ==========================
 # Page Config
@@ -117,7 +126,7 @@ elif option == "Chat":
                     }
 
                 response = requests.post(
-                    "http://127.0.0.1:8000/ask",
+                    f"{API_URL}/ask",
                     headers=headers,
                     json={
                         "question": question,
@@ -177,7 +186,7 @@ elif option == "Upload Documents":
                             }
 
                     response = requests.post(
-                        "http://127.0.0.1:8000/upload",
+                        f"{API_URL}/upload",
                         headers=headers,
                         files=files
                     )
@@ -235,7 +244,7 @@ elif option == "Upload Images":
                             }
 
                     response = requests.post(
-                        "http://127.0.0.1:8000/upload",
+                        f"{API_URL}/upload",
                         headers=headers,
                         files=files
                     )
@@ -272,7 +281,7 @@ elif option == "Generate Report":
                     }
 
                 response = requests.post(
-                    "http://127.0.0.1:8000/generate-report",
+                    f"{API_URL}/generate-report",
                     headers=headers,
                     json={
                         "messages": st.session_state.messages
@@ -307,7 +316,7 @@ elif option == "Signup":
     if st.button("Signup"):
 
         response = requests.post(
-            "http://127.0.0.1:8000/signup",
+            f"{API_URL}/signup",
             json={
                 "username": username,
                 "email": email,
@@ -337,7 +346,7 @@ elif option == "Login":
     if st.button("Login"):
 
         response = requests.post(
-            "http://127.0.0.1:8000/login",
+            f"{API_URL}/login",
             data={
                 "username": email,
                 "password": password

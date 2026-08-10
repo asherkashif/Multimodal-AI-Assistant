@@ -1,9 +1,11 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
+from app.config import GEMINI_API_KEY
 
 model = ChatGoogleGenerativeAI(
     model="gemini-2.5-flash",
-    temperature=0
+    temperature=0,
+    google_api_key=GEMINI_API_KEY
 )
 
 prompt = ChatPromptTemplate.from_messages(

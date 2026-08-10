@@ -6,3 +6,8 @@ reports/
 .vscode/
 data/
 test.py
+.venv/
+venv/
+data/faiss_index/
+*.db
+chat.db
